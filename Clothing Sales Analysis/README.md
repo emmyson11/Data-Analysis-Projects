@@ -104,6 +104,7 @@ The results can help **personalize marketing campaigns**, **optimize promotions*
 ---
 
 ## Repository Structure
-├── Clothing_Sales_Analaysis.ipynb/ # Jupyter notebook for EDA and modeling
-├── Clothing Retail Sales Analysis - Report.docx/ #Full Report
+├── figures/ # Generated plots and charts
+├── notebooks/ # Jupyter notebook for EDA and modeling
+├── report/ # Full Report
 └── README.md # Project overview
