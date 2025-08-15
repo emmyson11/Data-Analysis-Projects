@@ -104,6 +104,7 @@ The results can help **personalize marketing campaigns**, **optimize promotions*
 ---
 
 ## Repository Structure
+.
 ├── figures/ # Generated plots and charts
 ├── notebooks/ # Jupyter notebook for EDA and modeling
 ├── report/ # Full Report
