@@ -80,8 +80,6 @@ The primary objective is to **classify customers who are likely to churn** using
 | Precision | 0.6052  | 0.6203 | Predicted churners are correct ~62% of the time |
 | ROC AUC   | 0.7354  | 0.7400 | Decent discrimination ability           |
 
-![Figure 1: Test vs Control Group Spending](figures/figure1.png)
-
 ![Figure 1: L2 Logisitc Regression ROC Curve](figures/figure1.png)
 > The first plot shows the Receiver Operating Characteristic (ROC) curve for the L2 Logistic Model's predictions. The blue curve lies well above the diagonal dashed line, which represents random guessing. This indicates that the model is able to distinguish between the two classes much better than random chance. The steep initial rise of the curve shows that the model can capture a large portion of true positives while keeping false positives low in the early stages. The curve gradually flattens toward the top-right, suggesting that as the model captures nearly all positives, it also starts including more false positives. Overall, the high placement of the curve suggests good predictive performance, with an Area Under the Curve (AUC) of 0.7400, meaning the model is moderately effective at classification.
 
