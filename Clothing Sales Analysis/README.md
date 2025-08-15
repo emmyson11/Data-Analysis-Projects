@@ -63,22 +63,39 @@ The results can help **personalize marketing campaigns**, **optimize promotions*
 
 ### **Q1:** Does being in the “test group” increase spending?
 - **Finding:** Customers receiving monthly coupons spend more annually.
-- **Figure 1:** Boxplot shows test group > control group spending.
+- Boxplot shows test group > control group spending.
+![Figure 1: Test vs Control Group Spending](figures/figure1.png)
 
 ### **Q2:** Does higher salary increase purchases and spending?
 - **Purchases:** No clear link between salary and purchase frequency.
+![Figure 2: Salary vs Purchases](figures/figure2.png)
 - **Spending:** Positive relationship—higher salary → higher annual spend.
+![Figure 3: Salary vs Annual Spending](figures/figure3.png)
 
 ### **Q3:** Which year had the highest sales?
 - **Finding:** Sales peaked in **2022**.
-- **Figure 3:** Bar chart shows total spend by year.
+- Bar chart shows total spend by year.
+![Figure 4: Total Annual Spending by Year](figures/figure4.png)
 
 ### **Q4:** Does body size affect spending?
 - **Inseam:** Customers near average inseam spend more.
+![Figure 5: Inseam vs Annual Spending](figures/figure5.png)
 - **Height:** Spending highest for customers near average height.
+![Figure 6: Height vs Annual Spending](figures/figure6.png)
 
 ### **Q5:** Is there a relationship between salary and height by gender?
 - **Finding:** No clear correlation across genders.
+- **Figure 7:** Height vs salary for men.  
+![Figure 7: Height vs Salary (Men)](figures/figure7.png)
+
+- **Figure 8:** Height vs salary for women.  
+![Figure 8: Height vs Salary (Women)](figures/figure8.png)
+
+- **Figure 9:** Height vs salary for nonbinary.  
+![Figure 9: Height vs Salary (Nonbinary)](figures/figure9.png)
+
+- **Figure 10:** Height vs salary for other.  
+![Figure 10: Height vs Salary (Other)](figures/figure10.png)
 
 ### **Q6:** Have customer body measurements changed over time?
 | Year | Height Min | Height Max | Height Mean | Waist Min | Waist Max | Waist Mean | Inseam Min | Inseam Max | Inseam Mean |
@@ -104,8 +121,11 @@ The results can help **personalize marketing campaigns**, **optimize promotions*
 ---
 
 ## Repository Structure
-.
+
 ├── figures/ # Generated plots and charts
+
 ├── notebooks/ # Jupyter notebook for EDA and modeling
+
 ├── report/ # Full Report
+
 └── README.md # Project overview
