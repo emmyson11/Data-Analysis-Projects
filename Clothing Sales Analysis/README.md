@@ -11,7 +11,9 @@ The dataset includes:
 - **Income:** Self-reported salary (in thousands)  
 - **Promotional participation:** Whether the customer is part of a test group receiving monthly coupons  
 - **Engagement metrics:** Months active in the store’s rewards program, number of purchases  
-- **Temporal:** Year of data collection  
+- **Temporal:** Year of data collection
+
+Link to Data: https://github.com/chelseaparlett/CPSC392ParlettPelleriti/blob/master/Data/boutique.csv
 
 We built **linear** and **polynomial regression models** to uncover patterns influencing spending.  
 The results can help **personalize marketing campaigns**, **optimize promotions**, and **better understand how traits relate to spending habits**.
