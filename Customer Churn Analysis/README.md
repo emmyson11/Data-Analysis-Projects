@@ -121,6 +121,122 @@ The primary objective is to **classify customers who are likely to churn** using
 **Observation:** Gradient boosting provides similar performance to logistic regression but slightly improves precision on churn prediction.
 
 ---
+## Recommendation System
+
+Since both the logistic regression (L2) and gradient boosting models perform similarly, logistic regression with L2 regularization was selected for integration into the recommendation system due to its interpretability and faster training.
+
+**Implementation Steps:**
+1. Predict churn risk in a dataset containing new customers using the trained logistic regression model.
+
+> New customers data: https://github.com/chelseaparlett/CPSC392ParlettPelleriti/blob/master/Data/streamingNEW.csv
+
+`new_customers = pd.read_csv("https://raw.githubusercontent.com/cmparlettpelleriti/CP_new_customers.csv")`
+
+2. Preprocess new customer data (drop missing age/income, one-hot encode categorical features, scale numerical values).
+
+```
+# Drop missing values
+new_customers.dropna(subset=['age', 'income'], inplace=True)
+new_customers.reset_index(drop=True, inplace=True)
+
+# One-hot encode
+obj_cols = new_customers.select_dtypes(include=[object]).columns.tolist()
+new_customers = pd.get_dummies(new_customers, columns=obj_cols)
+
+# Scale features
+new_customers_scaled = scaler.transform(new_customers)
+```
+3. Generate churn probabilities and identify the top 200 most at-risk customers.
+
+```
+new_customer_probabilities = log_reg_l2.predict_proba(new_customers_scaled)
+churn_probs = new_customer_probabilities[:, 1]  # Probability of churn
+
+top_indices = np.argsort(churn_probs)[::-1][:200]
+top_customers = new_customers.iloc[top_indices].copy()
+top_probs = churn_probs[top_indices]
+```
+
+4. Find similar existing customers by:
+ a. Training a Nearest Neighbors model on the “favorites” dataset using age, income, and mean hours watched.
+
+> favorites dataset: https://github.com/chelseaparlett/CPSC392ParlettPelleriti/blob/master/Data/streamingFILMS.csv
+
+```
+favorites = pd.read_csv("https://raw.githubusercontent.com/cmparlettpelleriti/CPSC39_favorites.csv")
+
+favorites_filtered = favorites[['age', 'income', 'meanhourswatched']]
+favorites_scaled = scaler.fit_transform(favorites_filtered)
+
+nn = NearestNeighbors(n_neighbors=10, algorithm='auto')
+nn.fit(favorites_scaled)
+```
+
+ b. Matching each high-risk customer to their top 10 most similar users based on Euclidean distance in standardized space.
+
+```
+top_risk_scaled = scaler.transform(top_customers[['age', 'income', 'meanhourswatched']])
+distances, indices = nn.kneighbors(top_risk_scaled)
+top_customers['top_10_similar_users'] = indices.tolist()
+```
+
+ c. Output a dataset (top_200_with_neighbors.csv) containing customer profiles, churn risk scores, and top 10 similar users for personalized retention offers via Streamlit.
+
+```
+top_customers.to_csv("top_200_with_neighbors.csv", index=False)
+
+!pip install streamlit pyngrok --quiet
+
+import streamlit as st
+import pandas as pd
+import ast
+from pyngrok import ngrok
+
+ngrok.set_auth_token("[YOUR_TOKEN_HERE]")
+
+%%writefile app.py
+import streamlit as st
+import pandas as pd
+import ast
+
+top_200_df = pd.read_csv("top_200_with_neighbors.csv")
+favorites = pd.read_csv("https://raw.githubusercontent.com/cmparlettpelleriti/CPSC392ParlettPelleriti/master/Data/streamingFILMS.csv")
+
+st.title("High-Risk Customer Recommendations")
+st.write("Top 200 customers predicted to churn, with suggested retention strategies and content recommendations.")
+
+top_200_df['top_10_similar_users'] = top_200_df['top_10_similar_users'].apply(ast.literal_eval)
+movie_columns = [f'Film{i}' for i in range(1, 11)]
+
+def get_recommendations(neighbor_indices):
+    recs = []
+    for idx in neighbor_indices:
+        if idx < len(favorites):
+            movies = favorites.loc[idx, movie_columns].tolist()
+            recs.append(movies)
+    return recs
+
+top_200_df['recommended_movies'] = top_200_df['top_10_similar_users'].apply(get_recommendations)
+
+st.dataframe(top_200_df[['age', 'income', 'monthssubbed', 
+                         'meanhourswatched', 'top_10_similar_users', 
+                         'recommended_movies']])
+
+from pyngrok import ngrok
+
+ngrok.set_auth_token("31AN9gGWT29IHFrodIeBEFvydcj_6mMwuscXssRBBDqcLpcKc")
+!streamlit run app.py &>/dev/null&
+
+public_url = ngrok.connect(8501)
+print("Streamlit app live at:", public_url)
+```
+
+This approach allows the business to proactively reach out to high-risk customers with targeted recommendations inspired by the preferences of similar users, increasing the likelihood of retention.
+
+Streamlit Demo:
+https://22f10f4996b5.ngrok-free.app/
+
+---
 
 ## Discussion / Reflection
 
