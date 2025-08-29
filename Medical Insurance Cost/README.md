@@ -3,8 +3,6 @@
 ## Project Overview
 This project builds a **predictive model for medical insurance costs** using demographic and lifestyle features such as age, BMI, smoking status, region, and number of children. The goal is to explore which factors drive healthcare costs and to develop a model that can **reliably estimate charges** for new individuals.
 
-This work demonstrates **data preprocessing, exploratory data analysis (EDA), regression modeling, model evaluation, and interpretability techniques**—skills that are widely applicable to health and risk prediction problems.
-
 ---
 
 ## Dataset
